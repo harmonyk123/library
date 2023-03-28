@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <title>Library</title>
+</head>
+
+<body>
+  <header id="header">
+    <div class="container">
+      <h1>Login</h1>
+      <div class="logged-Out" id="loggedOut">
+        <button class="btn" id="logInBtn">Login</button>
+      </div>
+      <div class="logged-In" id="loggedIn">
+        <button class="btn" id="accountBtn">Account</button>
+        <button class="btn" id="logOutBtn">LogOut</button>
+      </div>
+    </div>
+  </header>
+  <main class="main-container">
+    <div>
+      <button class="btn btn-add" id="open-modal">+ Add Button</button>
+
+
+      <div id="bookGrid" class="books-grid">
+        <!-- LIBRARY EXAMPLE -->
+        <div class="book-card">
+          <p>Title: Psychology of Money</p>
+          <p>Author: Morgan Housel</p>
+          <p>Pages: 256</p>
+          <div class="button-group">
+            <button class="btn">Edit</button>
+            <button class="btn">Read</button>
+            <button class="btn">Remove</button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="formContainer">
+    <div class="modal" id="modal">
+      <form id="addBookForm" class="add-book-form">
+        <h3>Add New Book</h3>
+        <input class="input" type="text" id="title" placeholder="Title" require maxlength="150" />
+        <p class="error-msg" id="errorMsg"></p>
+        <input class="input" type="text" id="author" placeholder="Author" require maxlength="150" />
+        <input class="input" type="number" id="pages" placeholder="Number of Pages" require maxlength="15000" />
+
+        <div class="is-read">
+          <label for="is-read">Have you Read it?</label>
+          <input type="checkbox" class="is-read" id="isRead" />
+        </div>
+        <button type="submit" class="btn" id="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+  <script src="library.js"></script>
+</body>
+
+</html>
