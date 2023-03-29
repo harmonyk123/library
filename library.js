@@ -42,14 +42,15 @@ class UI {
 
     bookCard.classList.add("book-card");
     buttonGroup.classList.add("button-group");
-    readBtn.classList.add("btn");
+    readBtn.setAttribute('class', "btn");
+    readBtn.setAttribute('id', "readButton");
     removeBtn.classList.add("btn");
     title.textContent = `${book.title}`;
     author.textContent = `${book.author}`;
     pages.textContent = `${book.pages} `;
     removeBtn.textContent = "Remove";
 
-    if (book.isRead) {
+    if (book.isRead === true) {
       readBtn.textContent = "Read";
       readBtn.classList.add("btn-light-green");
     } else {
@@ -72,21 +73,36 @@ class UI {
       Store.removeBook(
         element.target.parentElement.parentElement.children[0].textContent
       );
-      //console.log("remove")
     });
-  }
+
+
+    readBtn.addEventListener("click",()=>{
+      if (readBtn.textContent === 'Read'){
+       readBtn.textContent= 'Not read'
+        readBtn.classList.remove("btn-light-green")
+        readBtn.classList.add("btn-light-red")
+       
+      }else{
+        readBtn.textContent = 'Read'
+        readBtn.classList.remove("btn-light-red")
+        readBtn.classList.add("btn-light-green")
+      }
+    })
+
+  };
 
   static deleteBook(target) {
     const titleClass = document.getElementsByClassName("titleClass");
-    if ((target.textContent = "Remove")) {
-      //console.log( target.parentElement.parentElement.children[0].textContent);
+    if (target.textContent = "Remove") {
+      console.log( target.parentElement.parentElement.children[3].children[0]);
       //
-      console.log(target.parentElement.parentElement);
+     // console.log(target.parentElement.parentElement);
       target.parentElement.parentElement.remove();
     }
   }
-}
 
+
+}
 /////////////////stored////////////////
 class Store {
   static getBooks() {
@@ -147,6 +163,12 @@ form.addEventListener("submit", (e) => {
 
   form.reset();
 });
+
+//const readButton= document.getElementsByIdName('readButton')
+
+
+
+
 
 //////////////////////////// display book at the end///////////////////////////////////////////
 UI.displayBooks();
