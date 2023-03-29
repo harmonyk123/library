@@ -1,12 +1,9 @@
 ///////////////////////////////GLOBAL VARIABLE///////////////////////
 
+//myLibrary = []; //contain book objects version 2 added storage local
 
-myLibrary = []; //contain book objects
-
-
-const openModal = document.getElementById('open-modal');
+const openModal = document.getElementById("open-modal");
 const form = document.getElementById("addBookForm");
-
 
 //////////////////////////DATA STRUCTURE ///////////////////////
 
@@ -19,17 +16,16 @@ class Book {
   }
 }
 
-
 //UI class: Handle UserInterface tasks
 class UI {
   static displayBooks() {
+    const myLibrary = Store.getBooks(); //which is an array at the bottom 109line
 
     //loop through the array add book to list
     for (let book of myLibrary) {
       UI.addBooksToList(book);
       console.log(book);
     }
-
   }
 
   static addBooksToList(book) {
@@ -37,7 +33,7 @@ class UI {
 
     const bookCard = document.createElement("div");
     const title = document.createElement("p");
-    title.classList.add('titleClass')
+    title.classList.add("titleClass");
     const author = document.createElement("p");
     const pages = document.createElement("p");
     const buttonGroup = document.createElement("div");
@@ -52,7 +48,6 @@ class UI {
     author.textContent = `${book.author}`;
     pages.textContent = `${book.pages} `;
     removeBtn.textContent = "Remove";
-
 
     if (book.isRead) {
       readBtn.textContent = "Read";
@@ -73,37 +68,67 @@ class UI {
     removeBtn.addEventListener("click", (element) => {
       UI.deleteBook(element.target);
 
-    })
-
-    
+      //store deleted books
+      Store.removeBook(
+        element.target.parentElement.parentElement.children[0].textContent
+      );
+      //console.log("remove")
+    });
   }
 
   static deleteBook(target) {
-    const titleClass = document.getElementsByClassName('titleClass')
+    const titleClass = document.getElementsByClassName("titleClass");
     if ((target.textContent = "Remove")) {
-      //console.log(target.parentElement.children[0].children[0].textContent);
+      //console.log( target.parentElement.parentElement.children[0].textContent);
+      //
+      console.log(target.parentElement.parentElement);
       target.parentElement.parentElement.remove();
-     }
+    }
   }
-
-
 }
 
+/////////////////stored////////////////
+class Store {
+  static getBooks() {
+    let myLibrary;
+    if (localStorage.getItem("myLibrary") === null) {
+      myLibrary = [];
+    } else {
+      myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+    }
+
+    return myLibrary;
+  }
+
+  static addBook(book) {
+    const myLibrary = Store.getBooks();
+    myLibrary.push(book);
+    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+  }
+
+  static removeBook(title) {
+    const myLibrary = Store.getBooks();
+
+    myLibrary.forEach((book, index) => {
+      if (book.title === title) {
+        myLibrary.splice(index, 1);
+      }
+    });
+
+    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+  }
+}
 
 //////////////////////EVENT LISTENER////////////////////////////////
-
 
 openModal.addEventListener("click", () => {
   modal.style.display = "block";
 });
 
-
-
 form.addEventListener("submit", (e) => {
   //prevent actual submit
   e.preventDefault();
   modal.style.display = "none";
-
 
   //Get form values.
   const title = document.getElementById("title").value;
@@ -113,13 +138,15 @@ form.addEventListener("submit", (e) => {
 
   //instatiate book
   const book = new Book(title, author, pages, isRead);
-  
+
   //add book to UI
   UI.addBooksToList(book);
 
-    form.reset();
+  // Add book to store
+  Store.addBook(book);
 
+  form.reset();
 });
 
-// display book at the end
+//////////////////////////// display book at the end///////////////////////////////////////////
 UI.displayBooks();
