@@ -32,6 +32,16 @@ html{
     filter: brightness(90%);
   }
 
+.btn-light-green{
+    background-color: rgb(102, 222, 102);
+
+  }
+
+  .btn-light-red{
+    background-color: rgb(222, 102, 102);
+
+  }
+
 /*main*/
 .main-container{
     margin-top: 60px;
